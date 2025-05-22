@@ -98,7 +98,7 @@ volumes:
 docker-compose up -d
 ```
 
-* Redis: ใช้ port 6379
+* Redis: : [http://localhost:6379](http://localhost:6379)
 * Seq (ดู log): [http://localhost:5341](http://localhost:5341)
 
 ---
