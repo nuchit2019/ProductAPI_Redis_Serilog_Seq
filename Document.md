@@ -293,6 +293,11 @@ public class ProductController(IProductService service) : ControllerBase
 * เปิด [http://localhost:5341](http://localhost:5341)
 * ใช้ search, filter, dashboard ได้แบบ real-time
 
+![image](https://github.com/user-attachments/assets/cc2481be-a7bb-44c3-9430-0de8d1ed0261)
+
+![image](https://github.com/user-attachments/assets/79172943-6418-4b7b-af2d-b570e145ce6f)
+
+
 ---
 
 ### **10. ดูข้อมูลใน Redis (ดูค่า key/value, ตรวจสอบ cache) 
