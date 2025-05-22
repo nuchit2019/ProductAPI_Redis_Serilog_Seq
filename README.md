@@ -61,13 +61,16 @@
     - [http://localhost:5341](http://localhost:5341) (Seq Dashboard)
 
 ## Project Structure
-- Api/ (Controllers, Program.cs)
-- Application/ (Service, Interface)
-- Domain/ (Entities, Interface)
-- Infrastructure/ (Repository, Database, Redis, Cache)
-- Common/ (ApiResponse, Middleware, Utility)
-- README.md
-
+   ```
+ProductAPI/
+├── Api/                   # ASP.NET Core WebAPI (Controllers, Program.cs)
+├── Application/           # Application Layer (Services, Interfaces)
+├── Domain/                # Domain Entities, Interfaces
+├── Infrastructure/        # Repository, Database, Redis, Cache
+├── Common/                # Utilities (ApiResponse, Middleware)
+├── README.md              # คู่มือฉบับนี้
+└── docker-compose.yml
+   ```
 ## API Response Format
 
 ```json
