@@ -1,13 +1,8 @@
-ยินดีอย่างยิ่งครับ!
-นี่คือ **คู่มือ Starter Kit** สำหรับโปรแกรมเมอร์มือใหม่
-สร้าง CRUD API ด้วย .NET 8 + Dapper + MSSQL + Redis + Clean Architecture + Serilog + Global Exception Middleware + Response Wrapper
-**เหมาะกับทั้งเรียน/ใช้จริง/นำไปต่อยอดเป็น Microservice**
+ 
+# ProductAPI with Redis Cache, Serilog Logging, and Centralized Monitoring with Seq
 
----
 
-# ProductAPI Starter Kit
-
-**เทมเพลต CRUD Product API (.NET 8, Dapper, MSSQL, Redis, Clean Architecture)**
+**CRUD Product API (.NET 8, Dapper, MSSQL, Redis,Seq, Clean Architecture)**
 
 ---
 
@@ -34,7 +29,8 @@ ProductAPI/
 ├── Domain/                # Domain Entities, Interfaces
 ├── Infrastructure/        # Repository, Database, Redis, Cache
 ├── Common/                # Utilities (ApiResponse, Middleware)
-└── README.md              # คู่มือฉบับนี้
+├── README.md              # คู่มือฉบับนี้
+└── docker-compose.yml
 ```
 
 ---
