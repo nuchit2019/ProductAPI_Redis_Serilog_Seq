@@ -82,8 +82,7 @@ ProductAPI with Redis Cache, Serilog Logging, and Centralized Monitoring with Se
 ## Global Exception
 
 * ทุก error จะ log ลง Serilog (Console, File, Seq)
-* Client จะได้รับ message กลางๆ, ไม่ส่งรายละเอียด code (security best practice)
-* ต่อยอด production ได้ทันที
+* Client จะได้รับ message กลางๆ, ไม่ส่งรายละเอียด code (security best practice) 
 
  
  
