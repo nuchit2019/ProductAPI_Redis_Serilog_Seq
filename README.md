@@ -333,7 +333,6 @@ sequenceDiagram
   participant Client as Client
   participant Controller as Controller
   participant ProductService as ProductService
-  participant RedisCacheService as Cache
   participant Cache as Cache
   participant Repo as Repo
 
