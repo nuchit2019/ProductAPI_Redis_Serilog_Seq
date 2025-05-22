@@ -265,6 +265,122 @@ public class ProductController(IProductService service) : ControllerBase
 }
 ```
 
+### **  ตัวอย่าง Service **
+
+```csharp
+namespace ProductAPIRedisCache.Application.Services
+{
+    public class ProductService(IProductRepository repo, IRedisCacheService cache) : IProductService
+    { 
+        public async Task<IEnumerable<Product>> GetAllAsync()
+        {
+            var cacheKey = "products_all";
+            var cached = await cache.GetAsync<IEnumerable<Product>>(cacheKey);
+            if (cached is not null)
+                return cached;
+
+            var products = await repo.GetAllAsync();
+            await cache.SetAsync(cacheKey, products, TimeSpan.FromMinutes(2));
+            return products;
+        }
+         
+        public async Task<Product?> GetByIdAsync(int id)
+        {
+            //throw new Exception("Test Exception: Service Layer!");
+
+            var cacheKey = $"product_{id}";
+            var cached = await cache.GetAsync<Product>(cacheKey);
+            if (cached is not null)
+                return cached;
+
+            var product = await repo.GetByIdAsync(id);
+            if (product is not null)
+                await cache.SetAsync(cacheKey, product, TimeSpan.FromMinutes(2));
+            return product;
+        }
+
+         
+        public async Task<Product> CreateAsync(Product product)
+        {
+            var prod = await repo.CreateAsync(product);
+          
+            await cache.RemoveAsync("products_all");
+            return prod;
+        }
+         
+        public async Task<bool> UpdateAsync(Product product)
+        {
+            var result = await repo.UpdateAsync(product);
+            await cache.RemoveAsync("products_all");
+            await cache.RemoveAsync($"product_{product.Id}");
+            return result;
+        }
+         
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var result = await repo.DeleteAsync(id);
+            await cache.RemoveAsync("products_all");
+            await cache.RemoveAsync($"product_{id}");
+            return result;
+        }
+    }
+}
+```
+
+### Sequence Diagram: การ Query ข้อมูลสินค้า (GetAllAsync, GetByIdAsync)
+```mermaid
+sequenceDiagram
+  participant Client as Client
+  participant Controller as Controller
+  participant ProductService as ProductService
+  participant RedisCacheService as Cache
+  participant ProductRepository as Repo
+  participant Cache as Cache
+  participant Repo as Repo
+  participant P1 as New Participant
+  participant P2 as New Participant
+
+  Client ->> Controller: เรียก API (GET /products หรือ /products/{id})
+  Controller ->> ProductService: GetAllAsync() / GetByIdAsync(id)
+  ProductService ->> Cache: GetAsync(cacheKey)
+  alt พบข้อมูลใน Cache (Cache Hit)
+    Cache -->> ProductService: Return Data
+    ProductService -->> Controller: Return Data
+    Controller -->> Client: Return Data
+  else ไม่พบข้อมูลใน Cache (Cache Miss)
+    Cache -->> ProductService: null
+    ProductService ->> Repo: GetAllAsync() / GetByIdAsync(id)
+    Repo -->> ProductService: Return Data
+    ProductService ->> Cache: SetAsync(cacheKey, Data, TTL)
+    ProductService -->> Controller: Return Data
+    Controller -->> Client: Return Data
+  end
+```
+
+### Activity Diagram การอ่านข้อมูลสินค้า (Read - GetAllAsync, GetByIdAsync)
+```mermaid
+flowchart TD
+    A([Start]) --> B{Check Redis Cache}
+    B -- "Data Found" --> C[Return Data from Cache]
+    B -- "Data Not Found" --> D[Query from Database]
+    D --> E[Save Result to Cache]
+    E --> F[Return Data]
+    C --> Z([End])
+    F --> Z
+
+```
+
+### Activity Diagram: การเขียน/อัพเดต/ลบ (Create, Update, Delete)
+```mermaid
+flowchart TD
+    A([Start]) --> B[เรียก Repository DB]
+    B --> C{สำเร็จหรือไม่}
+    C -- "สำเร็จ" --> D[ลบ Cache ที่เกี่ยวข้อง: products all, product id]
+    D --> E[Return ผลลัพธ์]
+    C -- "ไม่สำเร็จ" --> E
+    E --> Z([End])
+
+```
 ---
 
 ### **8. API Response Format**
