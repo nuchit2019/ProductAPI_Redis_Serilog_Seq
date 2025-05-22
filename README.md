@@ -1,5 +1,5 @@
  
-# สร้าง ProductAPI ด้วย .NET 8 พร้อม Redis Cache, Serilog Logging และระบบ Centralized Log Monitoring ด้วย Seq
+# พัฒนา Web API ด้วย .NET 8 พร้อม Redis Cache, Serilog Logging และระบบ Centralized Log Monitoring ด้วย Seq
 
 
 **พัฒนา Web API ด้วย .Net8 รองรับ Redis Cache, Logging ด้วย Serilog และ Monitoring ผ่าน Seq**
