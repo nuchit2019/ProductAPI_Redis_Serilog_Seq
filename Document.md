@@ -101,9 +101,9 @@ volumes:
 ```sh
 docker-compose up -d
 ```
-
-* Redis: : [http://localhost:6379](http://localhost:6379)
-* Seq (ดู log): [http://localhost:5341](http://localhost:5341)
+* โดย: 
+* Redis: ใช้โปรแกรม RedisInsight ตรวจสอบ cache ตามแสดงในข้อ 10.  
+* Seq (ดู log): [http://localhost:5341](http://localhost:5341) ตามแสดงในข้อ 9. ดู log ได้ที่ Seq
 
 ---
 
