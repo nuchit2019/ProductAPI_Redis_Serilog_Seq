@@ -36,8 +36,7 @@ ProductAPI with Redis Cache, Serilog Logging, and Centralized Monitoring with Se
     Price DECIMAL(18,2) NOT NULL,
     Stock INT NOT NULL,
     CreatedAt DATETIME NOT NULL,
-    UpdatedAt DATETIME NULL
-);
+    UpdatedAt DATETIME NULL);
     ```
 
 4. **Edit ConnectionString in `appsettings.json`**
