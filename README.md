@@ -1,5 +1,6 @@
 
-# ProductAPI Starter Kit
+# ProductAPI with Redis Cache, Serilog Logging, and Centralized Monitoring with Seq
+
 
 .NET 8 CRUD Product API (Dapper, MSSQL, Redis, Serilog, Seq, Clean Architecture)
 
