@@ -334,7 +334,6 @@ sequenceDiagram
   participant Controller as Controller
   participant ProductService as ProductService
   participant RedisCacheService as Cache
-  participant ProductRepository as Repo
   participant Cache as Cache
   participant Repo as Repo
 
@@ -353,7 +352,6 @@ sequenceDiagram
     ProductService -->> Controller: Return Data
     Controller -->> Client: Return Data
   end
-
 ```
 #
 ### Activity Diagram การอ่านข้อมูลสินค้า (Read - GetAllAsync, GetByIdAsync)
