@@ -62,7 +62,7 @@
 
 ## Project Structure
    ```
-ProductAPI/
+ProductAPIRedisCache/
 ├── Api/                   # ASP.NET Core WebAPI (Controllers, Program.cs)
 ├── Application/           # Application Layer (Services, Interfaces)
 ├── Domain/                # Domain Entities, Interfaces
