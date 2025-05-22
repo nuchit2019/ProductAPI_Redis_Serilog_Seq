@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  redis:
+    image: "redis:7.2"
+    container_name: "my-redis"
+    ports:
+      - "6379:6379"
+    restart: always
+
+  seq:
+    image: datalust/seq
+    container_name: seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "5341:80"          # เข้า UI/รับ log ผ่าน http://localhost:5341
+    volumes:
+      - seqdata:/data      # เก็บ log ถาวร
+    restart: always
+
+volumes:
+  seqdata:
