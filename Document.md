@@ -53,11 +53,15 @@ dotnet add package Serilog.Sinks.Seq
 ### **2. สร้าง Table MSSQL สำหรับ Product**
 
 ```sql
+CREATE DATABASE ProductDb;
+
 CREATE TABLE Products (
-    Id INT IDENTITY PRIMARY KEY,
+    Id INT PRIMARY KEY IDENTITY,
     Name NVARCHAR(100) NOT NULL,
-    Description NVARCHAR(255),
-    Price DECIMAL(18,2) NOT NULL
+    Price DECIMAL(18,2) NOT NULL,
+    Stock INT NOT NULL,
+    CreatedAt DATETIME NOT NULL,
+    UpdatedAt DATETIME NULL
 );
 ```
 
