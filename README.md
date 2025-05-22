@@ -30,12 +30,14 @@ ProductAPI with Redis Cache, Serilog Logging, and Centralized Monitoring with Se
 
 3. **Create Product Table in MSSQL**
     ```sql
-    CREATE TABLE Products (
-        Id INT IDENTITY PRIMARY KEY,
-        Name NVARCHAR(100) NOT NULL,
-        Description NVARCHAR(255),
-        Price DECIMAL(18,2) NOT NULL
-    );
+   CREATE TABLE Products (
+    Id INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(100) NOT NULL,
+    Price DECIMAL(18,2) NOT NULL,
+    Stock INT NOT NULL,
+    CreatedAt DATETIME NOT NULL,
+    UpdatedAt DATETIME NULL
+);
     ```
 
 4. **Edit ConnectionString in `appsettings.json`**
