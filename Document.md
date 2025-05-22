@@ -295,6 +295,35 @@ public class ProductController(IProductService service) : ControllerBase
 
 ---
 
+### **10. ดูข้อมูลใน Redis (ดูค่า key/value, ตรวจสอบ cache) 
+#### โดยใช้ **Redis GUI Tool**
+
+โปรแกรมฟรีที่ใช้ดู Redis GUI:
+
+* **[RedisInsight](https://redis.com/redis-enterprise/redis-insight/)**
+
+แค่ดาวน์โหลด > Connect ไปที่ Redis server (`localhost:6379`) > จะเห็น key/value ได้ทันที
+**ข้อดี:** เหมาะกับ dev, ดู key, แก้ไข, ลบ, inspect ข้อมูลแบบไม่ต้องพิมพ์ command เอง
+ ![image](https://github.com/user-attachments/assets/27b8bb42-5ae3-409c-875a-b0fda535802a)
+
+
+---
+
+### **สรุป**
+
+* ดูผ่าน CLI (docker exec -it ... redis-cli → KEYS \* → GET ...)
+* หรือ ใช้ Redis GUI Tools (RedisInsight, FastoRedis ฯลฯ)
+* หรือ เขียน Code test (C# / Python ฯลฯ)
+
+---
+
+ถ้าติดตั้ง RedisInsight แล้วมีปัญหา หรืออยากได้ step-by-step พร้อมภาพ แจ้งได้เลยครับ!
+**ถ้าอยากดู key ทุกรายการ หรือเจาะค่าบาง key—ระบุ key ที่ต้องการมาด้วยก็ได้ครับ**
+
+
+---
+
+
 ### **10. คำแนะนำสำหรับมือใหม่**
 
 * เริ่มจาก clone/project นี้
