@@ -68,6 +68,7 @@ ProductAPI/
 ├── Domain/                # Domain Entities, Interfaces
 ├── Infrastructure/        # Repository, Database, Redis, Cache
 ├── Common/                # Utilities (ApiResponse, Middleware)
+├── Middleware/
 ├── README.md              # คู่มือฉบับนี้
 └── docker-compose.yml
    ```
