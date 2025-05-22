@@ -23,12 +23,13 @@
 ## **โครงสร้างไฟล์**
 
 ```
-ProductAPI/
+ProductAPIRedisCache/
 ├── Api/                   # ASP.NET Core WebAPI (Controllers, Program.cs)
 ├── Application/           # Application Layer (Services, Interfaces)
 ├── Domain/                # Domain Entities, Interfaces
 ├── Infrastructure/        # Repository, Database, Redis, Cache
 ├── Common/                # Utilities (ApiResponse, Middleware)
+├── Middleware/
 ├── README.md              # คู่มือฉบับนี้
 └── docker-compose.yml
 ```
