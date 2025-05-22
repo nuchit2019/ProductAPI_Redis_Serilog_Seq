@@ -264,7 +264,7 @@ public class ProductController(IProductService service) : ControllerBase
     }
 }
 ```
-
+#
 ### **  ตัวอย่าง Service **
 
 ```csharp
@@ -326,7 +326,7 @@ namespace ProductAPIRedisCache.Application.Services
     }
 }
 ```
-
+#
 ### Sequence Diagram: การ Query ข้อมูลสินค้า (GetAllAsync, GetByIdAsync)
 ```mermaid
 sequenceDiagram
@@ -337,8 +337,6 @@ sequenceDiagram
   participant ProductRepository as Repo
   participant Cache as Cache
   participant Repo as Repo
-  participant P1 as New Participant
-  participant P2 as New Participant
 
   Client ->> Controller: เรียก API (GET /products หรือ /products/{id})
   Controller ->> ProductService: GetAllAsync() / GetByIdAsync(id)
@@ -355,8 +353,9 @@ sequenceDiagram
     ProductService -->> Controller: Return Data
     Controller -->> Client: Return Data
   end
-```
 
+```
+#
 ### Activity Diagram การอ่านข้อมูลสินค้า (Read - GetAllAsync, GetByIdAsync)
 ```mermaid
 flowchart TD
@@ -369,7 +368,7 @@ flowchart TD
     F --> Z
 
 ```
-
+#
 ### Activity Diagram: การเขียน/อัพเดต/ลบ (Create, Update, Delete)
 ```mermaid
 flowchart TD
@@ -381,7 +380,7 @@ flowchart TD
     E --> Z([End])
 
 ```
----
+#
 
 ### **8. API Response Format**
 
