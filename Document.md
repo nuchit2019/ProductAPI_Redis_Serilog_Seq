@@ -1,5 +1,5 @@
  
-# ProductAPI with Redis Cache, Serilog Logging, and Centralized Monitoring with Seq
+# สร้าง ProductAPI ด้วย .NET 8 พร้อม Redis Cache, Serilog Logging และระบบ Centralized Log Monitoring ด้วย Seq
 
 
 **CRUD Product API (.NET 8, Dapper, MSSQL, Redis,Seq, Clean Architecture)**
