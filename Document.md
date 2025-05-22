@@ -300,8 +300,7 @@ public class ProductController(IProductService service) : ControllerBase
 * เริ่มจาก clone/project นี้
 * ต่อยอด entity ใหม่ได้ง่าย (แค่เพิ่ม Model/Repository/Service)
 * ศึกษา log จาก Seq, Console, หรือเพิ่ม Sinks อื่นได้
-* เพิ่ม cache ด้วย Redis ง่ายมาก (IRedisCacheService)
-* ถ้าต้องการ auth/jwt, validation, test, swagger, pipeline สามารถต่อยอดได้ทันที
+* เพิ่ม cache ด้วย Redis ง่ายมาก (IRedisCacheService) 
 
 ---
  
