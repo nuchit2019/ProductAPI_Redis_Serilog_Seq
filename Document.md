@@ -301,11 +301,9 @@ public class ProductController(IProductService service) : ControllerBase
 ---
 
 ### **10. ดูข้อมูลใน Redis (ดูค่า key/value, ตรวจสอบ cache) 
-#### โดยใช้ **Redis GUI Tool**
+#### โดยใช้ **Redis GUI Tool** 
 
-โปรแกรมฟรีที่ใช้ดู Redis GUI:
-
-* **[RedisInsight](https://redis.com/redis-enterprise/redis-insight/)**
+* **ดาวน์โหลด [RedisInsight](https://redis.com/redis-enterprise/redis-insight/)**
 
 แค่ดาวน์โหลด > Connect ไปที่ Redis server (`localhost:6379`) > จะเห็น key/value ได้ทันที
 **ข้อดี:** เหมาะกับ dev, ดู key, แก้ไข, ลบ, inspect ข้อมูลแบบไม่ต้องพิมพ์ command เอง
