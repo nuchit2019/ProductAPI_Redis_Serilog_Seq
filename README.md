@@ -24,12 +24,31 @@
 
 ```
 ProductAPIRedisCache/
-├── Api/                   # ASP.NET Core WebAPI (Controllers, Program.cs)
+│
+├── Api/                   # ASP.NET Core WebAPI (Controllers)
+│   └── Controllers/
+│       └── ProductController.cs
 ├── Application/           # Application Layer (Services, Interfaces)
+│   ├── Interfaces/
+│   │   └── IProductService.cs
+│   └── Services/
+│       └── ProductService.cs
 ├── Domain/                # Domain Entities, Interfaces
+│   ├── Entities/
+│   │   └── Product.cs
+│   └── Interfaces/
+│       └── IProductRepository.cs
 ├── Infrastructure/        # Repository, Database, Redis, Cache
+│   ├── Cache/
+│   │   ├── IRedisCacheService.cs
+│   │   └── RedisCacheService.cs
+│   └── Repositories/
+│       └── ProductRepository.cs
 ├── Common/                # Utilities (ApiResponse, Middleware)
+│   ├── ApiErrorResponse.cs
+│   └── ApiResponse.cs
 ├── Middleware/
+│   └── ExceptionMiddleware.cs
 ├── README.md              # คู่มือฉบับนี้
 └── docker-compose.yml
 ```
