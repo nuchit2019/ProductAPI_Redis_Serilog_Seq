@@ -399,6 +399,24 @@ flowchart TD
 
 ```
 #
+# * หมายเหตุ:
+
+  * **DB Operation** คือ Create/Update/Delete
+  * หลังสำเร็จ ลบ Cache ที่เกี่ยวข้อง (products\_all, product\_{id})
+  * ทุกขั้นตอนที่เกิด Exception ควร Log และ API ไม่ล่ม
+
+---
+
+## **สรุปแนวคิด**
+
+* ทุกจุดสำคัญครอบ **Validation**, **try-catch**, **Logging**
+* **Error ที่ Cache**: ไม่ล่ม, Log Warning แล้วดำเนินงานต่อ
+* **Error ที่ DB**: Log Error แล้ว Return 500
+* **Validation**: ถ้าไม่ถูกต้อง Return 400
+* **Data Not Found**: Return 404
+
+ 
+#
 ## **สรุปภาพรวมการไหลของข้อมูล**
 
 * **Read:**
@@ -410,6 +428,8 @@ flowchart TD
   * ปรับข้อมูลใน DB
   * ลบ Cache ที่เกี่ยวข้อง (Invalidate) เพื่อให้การ Query ครั้งหน้าไปอ่านจาก DB แล้ว Refresh Cache ใหม่
 #
+
+
 
 ### **8. API Response Format**
 
