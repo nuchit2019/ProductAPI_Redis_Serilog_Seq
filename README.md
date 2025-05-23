@@ -329,28 +329,37 @@ namespace ProductAPIRedisCache.Application.Services
 #
 ### Sequence Diagram: การ Query ข้อมูลสินค้า (GetAllAsync, GetByIdAsync)
 ```mermaid
-sequenceDiagram
+ sequenceDiagram
   participant Client as Client
   participant Controller as Controller
   participant ProductService as ProductService
-  participant Cache as Cache
+  participant RedisCacheService as Cache
+  participant Logger as Logger
   participant Repo as Repo
 
   Client ->> Controller: เรียก API (GET /products หรือ /products/{id})
   Controller ->> ProductService: GetAllAsync() / GetByIdAsync(id)
-  ProductService ->> Cache: GetAsync(cacheKey)
-  alt พบข้อมูลใน Cache (Cache Hit)
-    Cache -->> ProductService: Return Data
+  ProductService ->> RedisCacheService: GetAsync(cacheKey)
+  alt RedisCacheService ตอบกลับ "Exception"
+    ProductService ->> Logger: Log Warning/Error
+    ProductService ->> Repo: GetAllAsync()/GetByIdAsync(id)
+    Repo -->> ProductService: Data from DB
+    ProductService ->> RedisCacheService: SetAsync(cacheKey, Data, TTL) (try-catch)
+    RedisCacheService -->> ProductService: Ack/Exception (Log Warning if error)
     ProductService -->> Controller: Return Data
-    Controller -->> Client: Return Data
-  else ไม่พบข้อมูลใน Cache (Cache Miss)
-    Cache -->> ProductService: null
-    ProductService ->> Repo: GetAllAsync() / GetByIdAsync(id)
-    Repo -->> ProductService: Return Data
-    ProductService ->> Cache: SetAsync(cacheKey, Data, TTL)
+  else RedisCacheService ตอบกลับ "Cache Hit"
+    RedisCacheService -->> ProductService: Data from Cache
     ProductService -->> Controller: Return Data
-    Controller -->> Client: Return Data
+  else RedisCacheService ตอบกลับ "Cache Miss"
+    RedisCacheService -->> ProductService: null
+    ProductService ->> Repo: GetAllAsync()/GetByIdAsync(id)
+    Repo -->> ProductService: Data from DB
+    ProductService ->> RedisCacheService: SetAsync(cacheKey, Data, TTL) (try-catch)
+    RedisCacheService -->> ProductService: Ack/Exception (Log Warning if error)
+    ProductService -->> Controller: Return Data
   end
+  Controller -->> Client: Return Data (200 OK หรือ 404 ถ้าไม่เจอ)
+
 ```
 #
 ### Activity Diagram การอ่านข้อมูลสินค้า (Read - GetAllAsync, GetByIdAsync)
