@@ -1,44 +1,84 @@
-﻿using StackExchange.Redis;
+using StackExchange.Redis;
 using System.Text.Json;
 
 namespace ProductAPIRedisCache.Infrastructure.Cache
 {
-    public class RedisCacheService(IConnectionMultiplexer redis) : IRedisCacheService
+    public class RedisCacheService : IRedisCacheService
     {
-        private readonly IDatabase db = redis.GetDatabase();
+        private readonly IConnectionMultiplexer _redis;
+        private readonly IDatabase _db;
+        private readonly ILogger<RedisCacheService> _logger;
+
+        public RedisCacheService(IConnectionMultiplexer redis, ILogger<RedisCacheService> logger)
+        {
+            _redis = redis;
+            _db = redis.GetDatabase();
+            _logger = logger;
+        }
 
         public async Task<T?> GetAsync<T>(string key)
         {
-            var value = await db.StringGetAsync(key);
-            return value.HasValue ? JsonSerializer.Deserialize<T>(value!) : default;
+            try
+            {
+                var value = await _db.StringGetAsync(key);
+                return value.HasValue
+                    ? JsonSerializer.Deserialize<T>(value!)
+                    : default;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, $"Redis Get Error (Key={key}), fallback to DB.");
+                return default;
+            }
         }
 
         public async Task SetAsync<T>(string key, T value, TimeSpan? expiry = null)
         {
-            var json = JsonSerializer.Serialize(value);
-            await db.StringSetAsync(key, json, expiry);
+            try
+            {
+                var json = JsonSerializer.Serialize(value);
+                await _db.StringSetAsync(key, json, expiry);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, $"Redis Set Error (Key={key}), skip caching.");
+                // No throw. Continue API logic.
+            }
         }
 
         public async Task RemoveAsync(string key)
         {
-            await db.KeyDeleteAsync(key);
-        }
-
-        
-        public async Task RemoveByPatternAsync(string pattern)
-        {
-            
-            var endpoints = redis.GetEndPoints();
-            foreach (var endpoint in endpoints)
+            try
             {
-                var server = redis.GetServer(endpoint);
-                foreach (var key in server.Keys(pattern: pattern))
-                {
-                    await db.KeyDeleteAsync(key);
-                }
+                await _db.KeyDeleteAsync(key);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, $"Redis Remove Error (Key={key}), skip removal.");
+                // No throw. Continue API logic.
             }
         }
 
-
+  
+        public async Task RemoveByPatternAsync(string pattern)
+        {
+            try
+            {
+                var endpoints = _redis.GetEndPoints();
+                foreach (var endpoint in endpoints)
+                {
+                    var server = _redis.GetServer(endpoint);
+                    // WARNING: .Keys() is SLOW and should not be used in prod for high QPS.
+                    foreach (var key in server.Keys(pattern: pattern))
+                    {
+                        await _db.KeyDeleteAsync(key);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, $"Redis RemoveByPattern Error (Pattern={pattern}).");
+            }
+        }
     }
 }
