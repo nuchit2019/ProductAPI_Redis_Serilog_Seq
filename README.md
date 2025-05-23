@@ -23,9 +23,9 @@
 ## **โครงสร้างไฟล์**
 
 ```
-ProductAPIRedisCache/
+ProductAPIRedisCache/      # ASP.NET Core WebAPI Project
 │
-├── Api/                   # ASP.NET Core WebAPI (Controllers)
+├── Api/                   # Controllers Layer
 │   └── Controllers/
 │       └── ProductController.cs
 ├── Application/           # Application Layer (Services, Interfaces)
@@ -49,7 +49,7 @@ ProductAPIRedisCache/
 │   └── ApiResponse.cs
 ├── Middleware/
 │   └── ExceptionMiddleware.cs
-├── README.md              # คู่มือฉบับนี้
+├── README.md
 └── docker-compose.yml
 ```
 
