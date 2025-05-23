@@ -365,25 +365,37 @@ namespace ProductAPIRedisCache.Application.Services
 ### Activity Diagram การอ่านข้อมูลสินค้า (Read - GetAllAsync, GetByIdAsync)
 ```mermaid
 flowchart TD
-    A([Start]) --> B{Check Redis Cache}
-    B -- "Data Found" --> C[Return Data from Cache]
-    B -- "Data Not Found" --> D[Query from Database]
-    D --> E[Save Result to Cache]
-    E --> F[Return Data]
-    C --> Z([End])
-    F --> Z
+    Start([Start]) --> ValidateInput{Validate Input?}
+    ValidateInput -- "ไม่ถูกต้อง" --> Return400[Return 400 Bad Request]
+    ValidateInput -- "ถูกต้อง" --> TryGetCache[Try Get Data from Redis Cache]
+    TryGetCache -- "Exception" --> LogCacheError[Log Cache Error] --> QueryRepo[Query Data from Repository/DB]
+    TryGetCache -- "พบข้อมูล" --> ReturnCache[Return Data from Cache]
+    TryGetCache -- "ไม่พบข้อมูล" --> QueryRepo
+    QueryRepo -- "พบข้อมูล" --> TrySetCache[Set Data to Cache]
+    QueryRepo -- "ไม่พบข้อมูล" --> Return404[Return 404 Not Found]
+    TrySetCache -- "Exception" --> LogSetCacheError[Log Cache Set Error]
+    TrySetCache -- "สำเร็จ/หรือ Exception" --> ReturnDB[Return Data from DB]
+    ReturnCache --> End([End])
+    ReturnDB --> End
+    Return400 --> End
+    Return404 --> End
 
 ```
 #
 ### Activity Diagram: การเขียน/อัพเดต/ลบ (Create, Update, Delete)
 ```mermaid
 flowchart TD
-    A([Start]) --> B[เรียก Repository DB]
-    B --> C{สำเร็จหรือไม่}
-    C -- "สำเร็จ" --> D[ลบ Cache ที่เกี่ยวข้อง: products all, product id]
-    D --> E[Return ผลลัพธ์]
-    C -- "ไม่สำเร็จ" --> E
-    E --> Z([End])
+    Start([Start]) --> ValidateInput{Validate Input?}
+    ValidateInput -- "ไม่ถูกต้อง" --> Return400[Return 400 Bad Request]
+    ValidateInput -- "ถูกต้อง" --> TryRepoOp[Try DB Operation]
+    TryRepoOp -- "Exception" --> LogDBError[Log DB Error] --> Return500[Return 500/Internal Server Error]
+    TryRepoOp -- "Success" --> TryRemoveCache[Try Remove Cache]
+    TryRemoveCache -- "Exception" --> LogCacheError[Log Cache Remove Error]
+    TryRemoveCache -- "สำเร็จ/หรือ Exception" --> ReturnResult[Return Success/Fail]
+    ReturnResult --> End([End])
+    Return400 --> End
+    Return500 --> End
+
 
 ```
 #
