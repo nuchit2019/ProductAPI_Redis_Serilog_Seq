@@ -20,7 +20,7 @@
 
 ---
 
-## **โครงสร้างไฟล์**
+## **Project Structure**
 
 ```
 ProductAPIRedisCache/      # ASP.NET Core WebAPI Project
