@@ -213,8 +213,9 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
 ```
 
 ---
+# **7. ตัวอย่าง Code ...
 
-### **7. ตัวอย่าง Controller**
+### **7.1 ตัวอย่าง Controller**
 
 ```csharp
 [ApiController]
@@ -265,7 +266,7 @@ public class ProductController(IProductService service) : ControllerBase
 }
 ```
 #
-### **  ตัวอย่าง Service **
+### **7.2 ตัวอย่าง Service **
 
 ```csharp
 namespace ProductAPIRedisCache.Application.Services
@@ -327,9 +328,9 @@ namespace ProductAPIRedisCache.Application.Services
 }
 ```
 
-# * Flow Diagram (Sequence & Activity) การ Implement Redis Cache
+### **7.2.1 Flow Diagram (Sequence & Activity) การ Implement Redis Cache
  
-### Sequence Diagram: การ Query ข้อมูลสินค้า (GetAllAsync, GetByIdAsync)
+### **7.2.1.1 Sequence Diagram: การ Query ข้อมูลสินค้า (GetAllAsync, GetByIdAsync)
 ```mermaid
  sequenceDiagram
   participant Client as Client
@@ -364,7 +365,7 @@ namespace ProductAPIRedisCache.Application.Services
 
 ```
 #
-### Activity Diagram การอ่านข้อมูลสินค้า (Read - GetAllAsync, GetByIdAsync)
+### 7.2.1.2 Activity Diagram การอ่านข้อมูลสินค้า (Read - GetAllAsync, GetByIdAsync)
 ```mermaid
 flowchart TD
     Start([Start]) --> ValidateInput{Validate Input?}
@@ -384,7 +385,7 @@ flowchart TD
 
 ```
 #
-### Activity Diagram: การเขียน/อัพเดต/ลบ (Create, Update, Delete)
+### 7.2.1.3 Activity Diagram: การเขียน/อัพเดต/ลบ (Create, Update, Delete)
 ```mermaid
 flowchart TD
     Start([Start]) --> ValidateInput{Validate Input?}
@@ -401,7 +402,7 @@ flowchart TD
 
 ```
 #
-# * หมายเหตุ:
+### * หมายเหตุ:
 
   * **DB Operation** คือ Create/Update/Delete
   * หลังสำเร็จ ลบ Cache ที่เกี่ยวข้อง (products\_all, product\_{id})
@@ -409,7 +410,7 @@ flowchart TD
 
 ---
 
-## **สรุปแนวคิด**
+### **สรุปแนวคิด**
 
 * ทุกจุดสำคัญครอบ **Validation**, **try-catch**, **Logging**
 * **Error ที่ Cache**: ไม่ล่ม, Log Warning แล้วดำเนินงานต่อ
@@ -419,7 +420,7 @@ flowchart TD
 
  
 #
-## **สรุปภาพรวมการไหลของข้อมูล**
+### **สรุปภาพรวมการไหลของข้อมูล**
 
 * **Read:**
 
@@ -429,9 +430,8 @@ flowchart TD
 
   * ปรับข้อมูลใน DB
   * ลบ Cache ที่เกี่ยวข้อง (Invalidate) เพื่อให้การ Query ครั้งหน้าไปอ่านจาก DB แล้ว Refresh Cache ใหม่
+
 #
-
-
 
 ### **8. API Response Format**
 
