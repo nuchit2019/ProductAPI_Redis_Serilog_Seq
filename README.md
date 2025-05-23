@@ -378,6 +378,17 @@ flowchart TD
 
 ```
 #
+## **สรุปภาพรวมการไหลของข้อมูล**
+
+* **Read:**
+
+  * พยายามอ่านจาก Cache ก่อน
+  * ถ้าไม่เจอ (Cache Miss) ค่อย Query DB แล้วเซฟ Cache
+* **Write (Create/Update/Delete):**
+
+  * ปรับข้อมูลใน DB
+  * ลบ Cache ที่เกี่ยวข้อง (Invalidate) เพื่อให้การ Query ครั้งหน้าไปอ่านจาก DB แล้ว Refresh Cache ใหม่
+#
 
 ### **8. API Response Format**
 
